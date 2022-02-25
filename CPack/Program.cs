@@ -1,26 +1,50 @@
-﻿using PowerArgs;
+﻿using Newtonsoft.Json;
+using PowerArgs;
+using Spectre.Console;
 
 namespace CPack
 {
-    [ArgExceptionBehavior(ArgExceptionPolicy.StandardExceptionHandling)]
-    public class CPack
+    public static class Program
     {
-        public Package Package { get; set; }
+        public static Package Package { get; set; }
 
-        [ArgActionMethod, ArgDescription("Intializes Package")]
-        public void Init()
+        public static void Main(string[] args)
         {
             Package = new Package();
+
+            if (args[0] == "init")
+            {
+                Init();
+            }
+
+            if (args[0] == "info")
+            {
+                Load();
+            }
+        }
+
+        public static void Load()
+        {
+            Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"));
+
+            AnsiConsole.MarkupLine($"[bold]{Package.Name}[/]");
+            Console.WriteLine(Package.Description);
+        }
+
+        public static void Init()
+        {
             Console.WriteLine("Package Name:");
-            Package.Name = Console.ReadLine(); 
+            Package.Name = Console.ReadLine();
 
             Console.WriteLine("Package Description:");
             Package.Description = Console.ReadLine();
 
             Console.WriteLine("Package Include Directory:");
-            Package.IncludePath = Console.ReadLine();
 
-            Console.WriteLine("Include Directory");
+            DirectoryInfo info = new DirectoryInfo(Console.ReadLine());
+            Package.IncludePath = info.FullName;
+
+            Console.WriteLine("Library Directory");
 
             string[] files = Directory.GetFiles(Console.ReadLine());
 
@@ -32,15 +56,8 @@ namespace CPack
                 }
             }
 
-
+            File.WriteAllText("CPack.json", JsonConvert.SerializeObject(Package));
         }
-    }
 
-    public static class Program
-    {
-        public static void Main(string[] args)
-        {
-
-        }
     }
 }

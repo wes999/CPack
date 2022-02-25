@@ -19,6 +19,15 @@
         "runtime": {
           "lib/netstandard2.0/PowerArgs.dll": {}
         }
+      },
+      "Spectre.Console/0.43.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Spectre.Console.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/Spectre.Console.dll": {}
+        }
       }
     }
   },
@@ -62,12 +71,31 @@
         "powerargs.3.6.0.nupkg.sha512",
         "powerargs.nuspec"
       ]
+    },
+    "Spectre.Console/0.43.0": {
+      "sha512": "TyfzVxx3jHr1FeeI9Z6Jn6QTnP7KduV14dn9GTYc0v/t2h4L6WJ0Kc2DOnOJUlGBQ/qXK4P+HITIR/JTHcKYLg==",
+      "type": "package",
+      "path": "spectre.console/0.43.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net5.0/Spectre.Console.dll",
+        "lib/net5.0/Spectre.Console.xml",
+        "lib/net6.0/Spectre.Console.dll",
+        "lib/net6.0/Spectre.Console.xml",
+        "lib/netstandard2.0/Spectre.Console.dll",
+        "lib/netstandard2.0/Spectre.Console.xml",
+        "small-logo.png",
+        "spectre.console.0.43.0.nupkg.sha512",
+        "spectre.console.nuspec"
+      ]
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
       "Newtonsoft.Json >= 13.0.1",
-      "PowerArgs >= 3.6.0"
+      "PowerArgs >= 3.6.0",
+      "Spectre.Console >= 0.43.0"
     ]
   },
   "packageFolders": {
@@ -121,6 +149,10 @@
           "PowerArgs": {
             "target": "Package",
             "version": "[3.6.0, )"
+          },
+          "Spectre.Console": {
+            "target": "Package",
+            "version": "[0.43.0, )"
           }
         },
         "imports": [

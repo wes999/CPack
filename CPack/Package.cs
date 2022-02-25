@@ -8,5 +8,10 @@
         public string Description { get; set; }
 
         public List<string> LibraryFiles { get; set; }
+
+        public Package()
+        {
+            LibraryFiles = new List<string>();
+        }
     }
 }
