@@ -1,0 +1,8 @@
+C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\CPack.exe
+C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\CPack.dll
+C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\CPack.deps.json
+C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\CPack.runtimeconfig.json
+C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\CPack.pdb
+C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\Newtonsoft.Json.dll
+C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\PowerArgs.dll
+C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\Spectre.Console.dll

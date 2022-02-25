@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>CPack</id>
+    <version>1.0.0</version>
+    <authors>CPack</authors>
+    <description>Package Description</description>
+    <packageTypes>
+      <packageType name="DotnetTool" />
+    </packageTypes>
+  </metadata>
+  <files>
+    <file src="C:\Users\Wesma\source\repos\CPack\CPack\obj\DotnetToolSettings.xml" target="tools\net6.0\any\DotnetToolSettings.xml" />
+    <file src="C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\CPack.dll" target="tools\net6.0\any\CPack.dll" />
+    <file src="C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\CPack.deps.json" target="tools\net6.0\any\CPack.deps.json" />
+    <file src="C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\CPack.runtimeconfig.json" target="tools\net6.0\any\CPack.runtimeconfig.json" />
+    <file src="C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\CPack.pdb" target="tools\net6.0\any\CPack.pdb" />
+    <file src="C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\Newtonsoft.Json.dll" target="tools\net6.0\any\Newtonsoft.Json.dll" />
+    <file src="C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\PowerArgs.dll" target="tools\net6.0\any\PowerArgs.dll" />
+    <file src="C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\Spectre.Console.dll" target="tools\net6.0\any\Spectre.Console.dll" />
+  </files>
+</package>

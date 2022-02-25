@@ -44,9 +44,23 @@ namespace CPack
             DirectoryInfo info = new DirectoryInfo(Console.ReadLine());
             Package.IncludePath = info.FullName;
 
-            Console.WriteLine("Library Directory");
+            Console.WriteLine("Binary Directory:");
+            string binPath = Console.ReadLine();
+            string[] dlls = Directory.GetFiles(binPath);
 
-            string[] files = Directory.GetFiles(Console.ReadLine());
+            for (int i = 0; i < dlls.Length; i++)
+            {
+                if (dlls[i].EndsWith(".dll"))
+                {
+                    Package.Dlls.Add(dlls[i]);
+                }
+            }
+
+            Console.WriteLine("Library Directory:");
+            string path = Console.ReadLine();
+            Package.LibPath = new FileInfo(path).FullName;
+
+            string[] files = Directory.GetFiles(path);
 
             for (int i = 0; i < files.Length; i++)
             {
@@ -56,8 +70,14 @@ namespace CPack
                 }
             }
 
-            File.WriteAllText("CPack.json", JsonConvert.SerializeObject(Package));
+            File.WriteAllText("CPack.json", JsonConvert.SerializeObject(Package, Formatting.Indented));
         }
 
+        public static void Install(string package, string projName)
+        {
+            Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText(package + "\\CPack.json"));
+
+            
+        }
     }
 }
