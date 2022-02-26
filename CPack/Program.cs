@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using PowerArgs;
 using Spectre.Console;
 
 namespace CPack
@@ -19,16 +18,30 @@ namespace CPack
 
             if (args[0] == "info")
             {
-                Load();
+                Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"));
+                Package.Info();
+            }
+
+            if (args[0] == "install")
+            {
+                Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText(args[1] + "\\CPack.json")); 
+                Package.Install(args[2]);
+            }
+
+            if (args[0] == "pack")
+            {
+                Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"));
+                Package.Pack();
             }
         }
 
-        public static void Load()
+        public static void Info()
         {
             Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"));
 
             AnsiConsole.MarkupLine($"[bold]{Package.Name}[/]");
             Console.WriteLine(Package.Description);
+            Console.WriteLine();
         }
 
         public static void Init()
@@ -52,7 +65,9 @@ namespace CPack
             {
                 if (dlls[i].EndsWith(".dll"))
                 {
-                    Package.Dlls.Add(dlls[i]);
+                    FileInfo dll = new FileInfo(dlls[i]);
+
+                    Package.Dlls.Add(dll.FullName);
                 }
             }
 

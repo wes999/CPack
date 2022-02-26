@@ -11,15 +11,6 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
       },
-      "PowerArgs/3.6.0": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard2.0/PowerArgs.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/PowerArgs.dll": {}
-        }
-      },
       "Spectre.Console/0.43.0": {
         "type": "package",
         "compile": {
@@ -59,19 +50,6 @@
         "packageIcon.png"
       ]
     },
-    "PowerArgs/3.6.0": {
-      "sha512": "ooaQtI6nLOMNQoNfuiEcM1lnPJ9mBaXF99pt1EHnupwqZtC+L5I7IeSjZ/RA+h6Z2DImdFtWn9PNHbhcL9qNKA==",
-      "type": "package",
-      "path": "powerargs/3.6.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/netstandard2.0/PowerArgs.dll",
-        "lib/netstandard2.0/PowerArgs.xml",
-        "powerargs.3.6.0.nupkg.sha512",
-        "powerargs.nuspec"
-      ]
-    },
     "Spectre.Console/0.43.0": {
       "sha512": "TyfzVxx3jHr1FeeI9Z6Jn6QTnP7KduV14dn9GTYc0v/t2h4L6WJ0Kc2DOnOJUlGBQ/qXK4P+HITIR/JTHcKYLg==",
       "type": "package",
@@ -94,7 +72,6 @@
   "projectFileDependencyGroups": {
     "net6.0": [
       "Newtonsoft.Json >= 13.0.1",
-      "PowerArgs >= 3.6.0",
       "Spectre.Console >= 0.43.0"
     ]
   },
@@ -145,10 +122,6 @@
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.1, )"
-          },
-          "PowerArgs": {
-            "target": "Package",
-            "version": "[3.6.0, )"
           },
           "Spectre.Console": {
             "target": "Package",

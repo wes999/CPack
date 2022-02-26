@@ -1,4 +1,7 @@
-﻿namespace CPack
+﻿using System.IO.Compression;
+using Spectre.Console;
+
+namespace CPack
 {
     public class Package
     {
@@ -17,13 +20,32 @@
             Dlls = new List<string>();
         }
 
+        public void Pack()
+        {
+            ZipFile.CreateFromDirectory(Name, Name + ".cpack");
+        }
+
+        public void Info()
+        {
+            AnsiConsole.MarkupLine($"[bold]{Name}[/]");
+            Console.WriteLine(Description);
+            Console.WriteLine(Version);
+            Console.WriteLine(Version);
+        }
+
+        public void Install(string projName)
+        {
+            CopyDlls(projName);
+            MakeIncludesAndDependancies(projName);
+        }
+
         public void CopyDlls(string destination)
         {
             for (int i = 0; i < Dlls.Count; i++)
             {
                 FileInfo info = new FileInfo(Dlls[i]);
 
-                File.Copy(info.FullName, Name + "\\" + info.Name);
+                File.Copy(Dlls[i], destination + "\\" + info.Name);
             }
         }
 

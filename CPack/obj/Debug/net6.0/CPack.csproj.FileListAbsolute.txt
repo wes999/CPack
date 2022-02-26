@@ -5,7 +5,6 @@ C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\CPack.dll
 C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\ref\CPack.dll
 C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\CPack.pdb
 C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\Newtonsoft.Json.dll
-C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\PowerArgs.dll
 C:\Users\Wesma\source\repos\CPack\CPack\obj\Debug\net6.0\CPack.csproj.AssemblyReference.cache
 C:\Users\Wesma\source\repos\CPack\CPack\obj\Debug\net6.0\CPack.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Wesma\source\repos\CPack\CPack\obj\Debug\net6.0\CPack.AssemblyInfoInputs.cache
