@@ -16,7 +16,6 @@
     <file src="C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\CPack.runtimeconfig.json" target="tools\net6.0\any\CPack.runtimeconfig.json" />
     <file src="C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\CPack.pdb" target="tools\net6.0\any\CPack.pdb" />
     <file src="C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\Newtonsoft.Json.dll" target="tools\net6.0\any\Newtonsoft.Json.dll" />
-    <file src="C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\ICSharpCode.SharpZipLib.dll" target="tools\net6.0\any\ICSharpCode.SharpZipLib.dll" />
     <file src="C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\Spectre.Console.dll" target="tools\net6.0\any\Spectre.Console.dll" />
   </files>
 </package>

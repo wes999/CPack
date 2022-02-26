@@ -35,15 +35,6 @@ namespace CPack
             }
         }
 
-        public static void Info()
-        {
-            Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"));
-
-            AnsiConsole.MarkupLine($"[bold]{Package.Name}[/]");
-            Console.WriteLine(Package.Description);
-            Console.WriteLine();
-        }
-
         public static void Init()
         {
             Console.WriteLine("Package Name:");
@@ -81,7 +72,7 @@ namespace CPack
             {
                 if (files[i].EndsWith(".lib"))
                 {
-                    Package.LibraryFiles.Add(files[1]);
+                    Package.LibraryFiles.Add(new FileInfo(files[i]).Name);
                 }
             }
 
