@@ -11,28 +11,42 @@ namespace CPack
         {
             Package = new Package();
 
-            if (args[0] == "init")
+
+            if (args.Length >= 1)
             {
-                Init();
+                if (args[0] == "init")
+                {
+                    Init();
+                }
+
+                if (args[0] == "info")
+                {
+                    Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"));
+                    Package.Info();
+                }
+
+                if (args[0] == "install")
+                {
+                    Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText(args[1] + "\\CPack.json"));
+                    Package.Install(args[2]);
+                }
+
+                if (args[0] == "pack")
+                {
+                    Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText(args[1] + "\\CPack.json"));
+                    Package.Pack();
+                }
             }
 
-            if (args[0] == "info")
+            else
             {
-                Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"));
-                Package.Info();
+                Menu();
             }
+        }
 
-            if (args[0] == "install")
-            {
-                Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText(args[1] + "\\CPack.json")); 
-                Package.Install(args[2]);
-            }
+        public static void Menu()
+        {
 
-            if (args[0] == "pack")
-            {
-                Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"));
-                Package.Pack();
-            }
         }
 
         public static void Init()

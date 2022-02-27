@@ -22,7 +22,13 @@ namespace CPack
 
         public void Pack()
         {
-            ZipFile.CreateFromDirectory(Directory.GetCurrentDirectory(), Name + ".cpack");
+            ZipArchive archive = ZipFile.Open(Name + ".cpack", ZipArchiveMode.Create);
+            string[] files = Directory.GetFileSystemEntries(Directory.GetCurrentDirectory());
+
+            for (int i = 0; i < files.Length; i++)
+            {
+                archive.CreateEntryFromFile(files[i], files[i]); 
+            }
         }
 
         public void Info()
@@ -41,45 +47,71 @@ namespace CPack
 
         public void CopyDlls(string destination)
         {
-            for (int i = 0; i < Dlls.Count; i++)
+            AnsiConsole.Progress()
+                .Columns(
+                    new ElapsedTimeColumn(),
+                    new ProgressBarColumn(),
+                    new SpinnerColumn(Spinner.Known.Ascii)
+                    )
+                
+                .Start(ctx =>
             {
-                FileInfo info = new FileInfo(Dlls[i]);
+                ProgressTask task = ctx.AddTask("Copying Dlls");
 
-                File.Copy(info.FullName, destination + "\\" + info.Name);
-            }
+                for (int i = 0; i < Dlls.Count; i++)
+                {
+                    FileInfo info = new FileInfo(Dlls[i]);
+
+                    File.Copy(info.FullName, destination + "\\" + info.Name);
+                    task.Increment(Dlls.Count / 100);
+                }
+            });
         }
 
         public void MakeIncludesAndDependancies(string projName)
         {
-            string dependancies = String.Empty;
+            AnsiConsole.Progress()
+                .Columns(
+                    new ElapsedTimeColumn(),
+                    new ProgressBarColumn(),
+                    new SpinnerColumn(Spinner.Known.Ascii)
+                )
 
-            for (int i = 0; i < LibraryFiles.Count; i++)
-            {
-                dependancies += LibraryFiles[i] + ";";
-            }
+                .Start(ctx =>
+                {
+                    ProgressTask task = ctx.AddTask("Making Includes And Dependencies");
 
-            string[] lines = File.ReadAllLines(projName + "\\" + projName + ".vcxproj");
+                    string dependancies = String.Empty;
 
-            string settings =
-                $"   <ItemDefinitionGroup Condition=\"'$(Configuration)|$(Platform)'=='Debug|Win32'\">\r\n    <ClCompile>\r\n      <WarningLevel>Level3</WarningLevel>\r\n      <SDLCheck>true</SDLCheck>\r\n      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>\r\n      <ConformanceMode>true</ConformanceMode>\r\n      <AdditionalIncludeDirectories>{IncludePath}</AdditionalIncludeDirectories>\r\n    </ClCompile>\r\n    <Link>\r\n      <SubSystem>Console</SubSystem>\r\n      <GenerateDebugInformation>true</GenerateDebugInformation>\r\n      <AdditionalLibraryDirectories>{LibPath}</AdditionalLibraryDirectories>\r\n      <AdditionalDependencies>{dependancies}%(AdditionalDependencies)</AdditionalDependencies>\r\n    </Link>\r\n  </ItemDefinitionGroup>";
+                    for (int i = 0; i < LibraryFiles.Count; i++)
+                    {
+                        dependancies += LibraryFiles[i] + ";";
+                        task.Increment(100 / LibraryFiles.Count);
+                    }
 
-            string done = String.Empty;
+                    string[] lines = File.ReadAllLines(projName + "\\" + projName + ".vcxproj");
 
-            for (int i = 0; i < lines.Length - 1; i++)
-            {
-                done += lines[i] + "\n";
-            }
+                    string settings =
+                        $"   <ItemDefinitionGroup Condition=\"'$(Configuration)|$(Platform)'=='Debug|Win32'\">\r\n    <ClCompile>\r\n      <WarningLevel>Level3</WarningLevel>\r\n      <SDLCheck>true</SDLCheck>\r\n      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>\r\n      <ConformanceMode>true</ConformanceMode>\r\n      <AdditionalIncludeDirectories>{IncludePath}</AdditionalIncludeDirectories>\r\n    </ClCompile>\r\n    <Link>\r\n      <SubSystem>Console</SubSystem>\r\n      <GenerateDebugInformation>true</GenerateDebugInformation>\r\n      <AdditionalLibraryDirectories>{LibPath}</AdditionalLibraryDirectories>\r\n      <AdditionalDependencies>{dependancies}%(AdditionalDependencies)</AdditionalDependencies>\r\n    </Link>\r\n  </ItemDefinitionGroup>";
 
-            done += settings + "\n";
-            done += "</Project>";
+                    string done = String.Empty;
 
-            File.Delete(projName + "\\" + projName + ".vcxproj");
+                    for (int i = 0; i < lines.Length - 1; i++)
+                    {
+                        done += lines[i] + "\n";
+                    }
 
-            FileStream stream = new FileStream(projName + "\\" + projName + ".vcxproj", FileMode.Create);
-            StreamWriter writer = new StreamWriter(stream);
+                    done += settings + "\n";
+                    done += "</Project>";
 
-            writer.Write(done);
-            writer.Close();
+                    File.Delete(projName + "\\" + projName + ".vcxproj");
+
+                    FileStream stream = new FileStream(projName + "\\" + projName + ".vcxproj", FileMode.Create);
+                    StreamWriter writer = new StreamWriter(stream);
+
+                    writer.Write(done);
+                    writer.Close();
+                }); 
         }
     }
 }
