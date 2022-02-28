@@ -36,6 +36,11 @@ namespace CPack
                     Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText(args[1] + "\\CPack.json"));
                     Package.Pack();
                 }
+
+                if (args[0] == "normalize")
+                {
+                    Normalize();
+                }
             }
 
             else
@@ -49,6 +54,16 @@ namespace CPack
 
         }
 
+        public static void Normalize()
+        {
+            Package package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"));
+
+            package.IncludePath = new FileInfo(package.IncludePath).FullName;
+            package.LibPath = new FileInfo(package.LibPath).FullName;
+            
+            File.WriteAllText("CPack.json", JsonConvert.SerializeObject(package, Formatting.Indented));
+        }
+
         public static void Init()
         {
             Console.WriteLine("Package Name:");
@@ -59,8 +74,7 @@ namespace CPack
 
             Console.WriteLine("Package Include Directory:");
 
-            DirectoryInfo info = new DirectoryInfo(Console.ReadLine());
-            Package.IncludePath = info.FullName;
+            Package.IncludePath = Console.ReadLine();
 
             Console.WriteLine("Binary Directory:");
             string binPath = Console.ReadLine();
@@ -78,7 +92,6 @@ namespace CPack
 
             Console.WriteLine("Library Directory:");
             string path = Console.ReadLine();
-            Package.LibPath = new FileInfo(path).FullName;
 
             string[] files = Directory.GetFiles(path);
 
