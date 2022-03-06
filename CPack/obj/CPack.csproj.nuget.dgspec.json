@@ -48,6 +48,10 @@
               "target": "Package",
               "version": "[13.0.1, )"
             },
+            "PowerArgs": {
+              "target": "Package",
+              "version": "[3.6.0, )"
+            },
             "Spectre.Console": {
               "target": "Package",
               "version": "[0.43.0, )"

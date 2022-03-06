@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "/o6X3FAZKq227up4TiwHhxgs97LmQUNtXOq+Arx7ukWag0mExePh7EWCeVv6fGNS3pdYSBMDKfPkgw0B+5HiHA==",
+  "dgSpecHash": "L67wdpw6t820kMJIKZGxisXc2U6o3K+KsOsmvBtYzsslnqycR2h4iCq5fQl/jCkYa+KUu0q1T58bpF/8swMHOw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Wesma\\source\\repos\\CPack\\CPack\\CPack.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Wesma\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\Wesma\\.nuget\\packages\\powerargs\\3.6.0\\powerargs.3.6.0.nupkg.sha512",
     "C:\\Users\\Wesma\\.nuget\\packages\\spectre.console\\0.43.0\\spectre.console.0.43.0.nupkg.sha512"
   ],
   "logs": []
