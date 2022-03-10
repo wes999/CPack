@@ -4,6 +4,7 @@ using Spectre.Console;
 
 namespace CPack
 {
+    [ArgExceptionBehavior(ArgExceptionPolicy.StandardExceptionHandling)]
     class CPack
     {
         public Package Package = new Package();
@@ -18,35 +19,13 @@ namespace CPack
             Package.Description = Console.ReadLine();
 
             Console.WriteLine("Package Include Directory:");
-
             Package.IncludePath = Console.ReadLine();
 
-            string binPath = AnsiConsole.Ask<string>("Binary Directory:");
-            string[] dlls = Directory.GetFiles(binPath);
+            Console.WriteLine("Package Binary Directory:");
+            Package.GetDllFiles(Console.ReadLine()!);
 
-            for (int i = 0; i < dlls.Length; i++)
-            {
-                if (dlls[i].EndsWith(".dll"))
-                {
-                    FileInfo dll = new FileInfo(dlls[i]);
-
-                    Package.DllFiles.Add(dll.Name);
-                }
-            }
-
-            Console.WriteLine("Library Directory:");
-            string path = Console.ReadLine();
-            Package.LibPath = path;
-
-            string[] files = Directory.GetFiles(path);
-
-            for (int i = 0; i < files.Length; i++)
-            {
-                if (files[i].EndsWith(".lib"))
-                {
-                    Package.LibraryFiles.Add(new FileInfo(files[i]).Name);
-                }
-            }
+            Console.WriteLine("Package Library Directory:");
+            Package.GetLibFiles(Console.ReadLine()!);
 
             File.WriteAllText("CPack.json", JsonConvert.SerializeObject(Package, Formatting.Indented));
         }
@@ -91,6 +70,14 @@ namespace CPack
 
             string choice = AnsiConsole.Prompt<string>(new SelectionPrompt<string>()
                 .AddChoices("Install", "Localize"));
+        }
+
+        [ArgActionMethod]
+        public void Pack()
+        {
+            Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"))!;
+
+            Package.Pack();
         }
 
         public static class Program

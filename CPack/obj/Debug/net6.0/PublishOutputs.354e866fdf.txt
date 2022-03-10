@@ -5,4 +5,5 @@ C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\CPack.runtimeco
 C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\CPack.pdb
 C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\Newtonsoft.Json.dll
 C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\PowerArgs.dll
+C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\SharpCompress.dll
 C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\Spectre.Console.dll

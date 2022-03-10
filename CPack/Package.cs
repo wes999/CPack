@@ -1,4 +1,6 @@
-﻿using ICSharpCode.SharpZipLib.GZip;
+﻿using SharpCompress.Archives;
+using SharpCompress.Archives.Zip;
+using SharpCompress.Common;
 using Spectre.Console;
 
 namespace CPack
@@ -24,16 +26,49 @@ namespace CPack
             ExampleFiles = new List<string>();
         }
 
+        public void GetExampleFiles(string exampleDir)
+        {
+            string[] files = Directory.GetFiles(exampleDir);
+
+            for (int i = 0; i < files.Length; i++)
+            {
+                ExampleFiles.Add(files[i]);
+            }
+        }
+
+        public void GetLibFiles(string libPath)
+        {
+            LibPath = libPath;
+            string[] files = Directory.GetFiles(libPath);
+
+            for (int i = 0; i < files.Length; i++)
+            {
+                if (files[i].EndsWith(".lib"))
+                {
+                    LibraryFiles.Add(new FileInfo(files[i]).Name);
+                }
+            }
+        }
+
+        public void GetDllFiles(string binPath)
+        {
+            string[] dlls = Directory.GetFiles(binPath);
+
+            for (int i = 0; i < dlls.Length; i++)
+            {
+                if (dlls[i].EndsWith(".dll"))
+                {
+                    FileInfo dll = new FileInfo(dlls[i]);
+                    DllFiles.Add(dll.Name);
+                }
+            }
+        }
+
         public void Pack()
         {
-            for (int i = 0; i < LibraryFiles.Count; i++)
-            {
-                StreamWriter writer = new StreamWriter("Package.cpack");
-
-                writer.WriteLine($"START FILE {LibraryFiles[i]}");
-                GZip.Compress(new FileStream(LibraryFiles[i], FileMode.Open), new FileStream("", FileMode.Append), true);
-                writer.WriteLine($"END FILE {LibraryFiles[i]}");
-            }
+            var archive = ZipArchive.Create();
+            archive.AddAllFromDirectory(Directory.GetCurrentDirectory());
+            archive.SaveTo(Name + ".cpack", CompressionType.Deflate);
         }
 
         public void Info()
