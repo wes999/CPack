@@ -17,3 +17,4 @@ C:\Users\Wesma\source\repos\CPack\CPack\obj\Debug\net6.0\CPack.pdb
 C:\Users\Wesma\source\repos\CPack\CPack\obj\Debug\net6.0\CPack.genruntimeconfig.cache
 C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\Spectre.Console.dll
 C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\PowerArgs.dll
+C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\ICSharpCode.SharpZipLib.dll

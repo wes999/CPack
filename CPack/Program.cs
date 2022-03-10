@@ -21,8 +21,7 @@ namespace CPack
 
             Package.IncludePath = Console.ReadLine();
 
-            Console.WriteLine("Binary Directory:");
-            string binPath = Console.ReadLine();
+            string binPath = AnsiConsole.Ask<string>("Binary Directory:");
             string[] dlls = Directory.GetFiles(binPath);
 
             for (int i = 0; i < dlls.Length; i++)
@@ -31,7 +30,7 @@ namespace CPack
                 {
                     FileInfo dll = new FileInfo(dlls[i]);
 
-                    Package.Dlls.Add(dll.Name);
+                    Package.DllFiles.Add(dll.Name);
                 }
             }
 
@@ -55,16 +54,22 @@ namespace CPack
         [ArgActionMethod]
         public void Localize()
         {
-            Package package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"));
-            List<string> dlls = package.Dlls;
+            if (!File.Exists("CPack.json"))
+            {
+                AnsiConsole.MarkupLine("[red]ERROR[/] Directory Is Not A Package");
+                return;
+            }
 
-            package.Dlls.Clear();
+            Package package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"));
+            List<string> dlls = package.DllFiles;
+
+            package.DllFiles.Clear();
             package.IncludePath = new FileInfo(package.IncludePath).FullName;
             package.LibPath = new FileInfo(package.LibPath).FullName;
 
             for (int i = 0; i < dlls.Count; i++)
             {
-                package.Dlls.Add(new FileInfo(dlls[i]).FullName);
+                package.DllFiles.Add(new FileInfo(dlls[i]).FullName);
             }
 
             File.WriteAllText("CPack.json", JsonConvert.SerializeObject(package, Formatting.Indented));
@@ -73,76 +78,27 @@ namespace CPack
         [ArgActionMethod]
         public void Info()
         {
+            if (!File.Exists("CPack.json"))
+            {
+                AnsiConsole.MarkupLine("[red]ERROR[/] Directory Is Not A Package");
+                return;
+            }
+
             Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"));
-        }
-    }
 
-    public static class Program
-    {
-        public static Package Package { get; set; }
+            AnsiConsole.MarkupLine($"[bold]{Package.Name}[/]");
+            AnsiConsole.MarkupLine(Package.Description);
 
-        public static void Main(string[] args)
-        {
-            Args.InvokeAction<CPack>(args);
+            string choice = AnsiConsole.Prompt<string>(new SelectionPrompt<string>()
+                .AddChoices("Install", "Localize"));
         }
 
-        public static void Normalize()
+        public static class Program
         {
-            Package package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"));
-
-            package.IncludePath = new FileInfo(package.IncludePath).FullName;
-            package.LibPath = new FileInfo(package.LibPath).FullName;
-            
-            File.WriteAllText("CPack.json", JsonConvert.SerializeObject(package, Formatting.Indented));
-        }
-
-        public static void Init()
-        {
-            Console.WriteLine("Package Name:");
-            Package.Name = Console.ReadLine();
-
-            Console.WriteLine("Package Description:");
-            Package.Description = Console.ReadLine();
-
-            Console.WriteLine("Package Include Directory:");
-
-            Package.IncludePath = Console.ReadLine();
-
-            Console.WriteLine("Binary Directory:");
-            string binPath = Console.ReadLine();
-            string[] dlls = Directory.GetFiles(binPath);
-
-            for (int i = 0; i < dlls.Length; i++)
+            public static void Main(string[] args)
             {
-                if (dlls[i].EndsWith(".dll"))
-                {
-                    FileInfo dll = new FileInfo(dlls[i]);
-
-                    Package.Dlls.Add(dll.FullName);
-                }
+                Args.InvokeAction<CPack>(args);
             }
-
-            Console.WriteLine("Library Directory:");
-            string path = Console.ReadLine();
-
-            string[] files = Directory.GetFiles(path);
-
-            for (int i = 0; i < files.Length; i++)
-            {
-                if (files[i].EndsWith(".lib"))
-                {
-                    Package.LibraryFiles.Add(new FileInfo(files[i]).Name);
-                }
-            }
-
-            File.WriteAllText("CPack.json", JsonConvert.SerializeObject(Package, Formatting.Indented));
-        }
-
-        public static void Install(string package, string projName)
-        {
-            Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText(package + "\\CPack.json"));
-
-            
         }
     }
 }

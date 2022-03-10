@@ -1,4 +1,4 @@
-﻿using System.IO.Compression;
+﻿using ICSharpCode.SharpZipLib.GZip;
 using Spectre.Console;
 
 namespace CPack
@@ -11,23 +11,28 @@ namespace CPack
         public string Description { get; set; }
         public string LibPath { get; set; }
 
+        public List<string> DocFiles { get; set; }
+        public List<string> ExampleFiles { get; set; }
         public List<string> LibraryFiles { get; set; }
-        public List<string> Dlls { get; set; }
+        public List<string> DllFiles { get; set; }
 
         public Package()
         {
             LibraryFiles = new List<string>();
-            Dlls = new List<string>();
+            DllFiles = new List<string>();
+            DocFiles = new List<string>();
+            ExampleFiles = new List<string>();
         }
 
         public void Pack()
         {
-            ZipArchive archive = ZipFile.Open(Name + ".cpack", ZipArchiveMode.Create);
-            string[] files = Directory.GetFileSystemEntries(Directory.GetCurrentDirectory());
-
-            for (int i = 0; i < files.Length; i++)
+            for (int i = 0; i < LibraryFiles.Count; i++)
             {
-                archive.CreateEntryFromFile(files[i], files[i]); 
+                StreamWriter writer = new StreamWriter("Package.cpack");
+
+                writer.WriteLine($"START FILE {LibraryFiles[i]}");
+                GZip.Compress(new FileStream(LibraryFiles[i], FileMode.Open), new FileStream("", FileMode.Append), true);
+                writer.WriteLine($"END FILE {LibraryFiles[i]}");
             }
         }
 
@@ -56,14 +61,14 @@ namespace CPack
                 
                 .Start(ctx =>
             {
-                ProgressTask task = ctx.AddTask("Copying Dlls");
+                ProgressTask task = ctx.AddTask("Copying DllFiles");
 
-                for (int i = 0; i < Dlls.Count; i++)
+                for (int i = 0; i < DllFiles.Count; i++)
                 {
-                    FileInfo info = new FileInfo(Dlls[i]);
+                    FileInfo info = new FileInfo(DllFiles[i]);
 
                     File.Copy(info.FullName, destination + "\\" + info.Name);
-                    task.Increment(Dlls.Count / 100);
+                    task.Increment(DllFiles.Count / 100);
                 }
             });
         }
