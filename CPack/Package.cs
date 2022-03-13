@@ -1,4 +1,5 @@
-﻿using SharpCompress.Archives;
+﻿using System.Runtime.CompilerServices;
+using SharpCompress.Archives;
 using SharpCompress.Archives.Zip;
 using SharpCompress.Common;
 using Spectre.Console;
@@ -82,7 +83,7 @@ namespace CPack
         public void Install(string projName)
         {
             CopyDlls(projName);
-            MakeIncludesAndDependancies(projName);
+            MakeIncludesAndDependancies(projName + "\\" + projName + ".vcxproj");
         }
 
         public void CopyDlls(string destination)
@@ -110,48 +111,37 @@ namespace CPack
 
         public void MakeIncludesAndDependancies(string projName)
         {
-            AnsiConsole.Progress()
-                .Columns(
-                    new ElapsedTimeColumn(),
-                    new ProgressBarColumn(),
-                    new SpinnerColumn(Spinner.Known.Ascii)
-                )
+            string dependencies = String.Empty;
+            string[] strings = File.ReadAllLines(projName);
+            List<string> lines = new List<string>();
 
-                .Start(ctx =>
+            for (int i = 0; i < LibraryFiles.Count; i++)
+            {
+                dependencies += LibraryFiles[i] + ";";
+            }
+
+            for (int i = 0; i < strings.Length; i++)
+            {
+                lines.Add(strings[i]);
+            }
+
+            for (int i = 0; i < lines.Count; i++)
+            {
+                string line = lines[i];
+
+                if (line.Contains("<ClCompile>"))
                 {
-                    ProgressTask task = ctx.AddTask("Making Includes And Dependencies");
+                    lines.Insert(i + 1, $"\t\t\t<AdditionalIncludeDirectories>{IncludePath}</AdditionalIncludeDirectories>");
+                }
 
-                    string dependancies = String.Empty;
+                if (line.Contains("<link>"))
+                {
+                    lines.Insert(i + 1, $"\t\t\t<AdditionalLibraryDirectories>{LibPath}</AdditionalLibraryDirectories>");
+                    lines.Insert(i + 2, $"\t\t\t<AdditionalDependencies>{dependencies}</AdditionalDependencies>");
+                }
+            }
 
-                    for (int i = 0; i < LibraryFiles.Count; i++)
-                    {
-                        dependancies += LibraryFiles[i] + ";";
-                        task.Increment(100 / LibraryFiles.Count);
-                    }
-
-                    string[] lines = File.ReadAllLines(projName + "\\" + projName + ".vcxproj");
-
-                    string settings =
-                        $"   <ItemDefinitionGroup Condition=\"'$(Configuration)|$(Platform)'=='Debug|Win32'\">\r\n    <ClCompile>\r\n      <WarningLevel>Level3</WarningLevel>\r\n      <SDLCheck>true</SDLCheck>\r\n      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>\r\n      <ConformanceMode>true</ConformanceMode>\r\n      <AdditionalIncludeDirectories>{IncludePath}</AdditionalIncludeDirectories>\r\n    </ClCompile>\r\n    <Link>\r\n      <SubSystem>Console</SubSystem>\r\n      <GenerateDebugInformation>true</GenerateDebugInformation>\r\n      <AdditionalLibraryDirectories>{LibPath}</AdditionalLibraryDirectories>\r\n      <AdditionalDependencies>{dependancies}%(AdditionalDependencies)</AdditionalDependencies>\r\n    </Link>\r\n  </ItemDefinitionGroup>";
-
-                    string done = String.Empty;
-
-                    for (int i = 0; i < lines.Length - 1; i++)
-                    {
-                        done += lines[i] + "\n";
-                    }
-
-                    done += settings + "\n";
-                    done += "</Project>";
-
-                    File.Delete(projName + "\\" + projName + ".vcxproj");
-
-                    FileStream stream = new FileStream(projName + "\\" + projName + ".vcxproj", FileMode.Create);
-                    StreamWriter writer = new StreamWriter(stream);
-
-                    writer.Write(done);
-                    writer.Close();
-                }); 
+            File.WriteAllLines(projName, lines);
         }
     }
 }

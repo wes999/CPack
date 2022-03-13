@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using System.Xml;
+using Newtonsoft.Json;
 using PowerArgs;
+using SharpCompress.Archives.Zip;
 using Spectre.Console;
 
 namespace CPack
@@ -27,7 +29,20 @@ namespace CPack
             Console.WriteLine("Package Library Directory:");
             Package.GetLibFiles(Console.ReadLine()!);
 
-            File.WriteAllText("CPack.json", JsonConvert.SerializeObject(Package, Formatting.Indented));
+            File.WriteAllText("CPack.json", JsonConvert.SerializeObject(Package, Newtonsoft.Json.Formatting.Indented));
+        }
+
+        [ArgActionMethod]
+        public void Install(string projName)
+        {
+            if (!File.Exists("CPack.json"))
+            {
+                AnsiConsole.MarkupLine("[red]ERROR[/] Directory Is Not A Package");
+                return;
+            }
+
+            Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"));
+            Package!.Install(projName);
         }
 
         [ArgActionMethod]
@@ -39,7 +54,7 @@ namespace CPack
                 return;
             }
 
-            Package package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"));
+            Package package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"))!;
             List<string> dlls = package.DllFiles;
 
             package.DllFiles.Clear();
@@ -51,7 +66,7 @@ namespace CPack
                 package.DllFiles.Add(new FileInfo(dlls[i]).FullName);
             }
 
-            File.WriteAllText("CPack.json", JsonConvert.SerializeObject(package, Formatting.Indented));
+            File.WriteAllText("CPack.json", JsonConvert.SerializeObject(package, Newtonsoft.Json.Formatting.Indented));
         }
 
         [ArgActionMethod]
@@ -65,11 +80,18 @@ namespace CPack
 
             Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"));
 
-            AnsiConsole.MarkupLine($"[bold]{Package.Name}[/]");
+            AnsiConsole.MarkupLine($"[bold]{Package!.Name}[/]");
             AnsiConsole.MarkupLine(Package.Description);
 
             string choice = AnsiConsole.Prompt<string>(new SelectionPrompt<string>()
                 .AddChoices("Install", "Localize"));
+        }
+
+        [ArgActionMethod]
+        public void Unpack(string packageName)
+        {
+            var archive = ZipArchive.Open(packageName);
+            archive.ExtractAllEntries();
         }
 
         [ArgActionMethod]
