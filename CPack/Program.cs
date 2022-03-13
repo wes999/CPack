@@ -55,13 +55,13 @@ namespace CPack
             }
 
             Package package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"))!;
-            List<string> dlls = package.DllFiles;
+            string[] dlls = Directory.GetFiles(package.BinPath);
 
             package.DllFiles.Clear();
             package.IncludePath = new FileInfo(package.IncludePath).FullName;
             package.LibPath = new FileInfo(package.LibPath).FullName;
 
-            for (int i = 0; i < dlls.Count; i++)
+            for (int i = 0; i < dlls.Length; i++)
             {
                 package.DllFiles.Add(new FileInfo(dlls[i]).FullName);
             }

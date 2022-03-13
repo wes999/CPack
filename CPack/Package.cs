@@ -13,6 +13,7 @@ namespace CPack
         public string IncludePath { get; set; }
         public string Description { get; set; }
         public string LibPath { get; set; }
+        public string BinPath { get; set; }
 
         public List<string> DocFiles { get; set; }
         public List<string> ExampleFiles { get; set; }
@@ -53,6 +54,7 @@ namespace CPack
 
         public void GetDllFiles(string binPath)
         {
+            BinPath = binPath;
             string[] dlls = Directory.GetFiles(binPath);
 
             for (int i = 0; i < dlls.Length; i++)
@@ -111,37 +113,60 @@ namespace CPack
 
         public void MakeIncludesAndDependancies(string projName)
         {
-            string dependencies = String.Empty;
-            string[] strings = File.ReadAllLines(projName);
-            List<string> lines = new List<string>();
+            AnsiConsole.Progress().Columns(
+                    new ElapsedTimeColumn(),
+                    new ProgressBarColumn(),
+                    new SpinnerColumn(Spinner.Known.Ascii))
 
-            for (int i = 0; i < LibraryFiles.Count; i++)
-            {
-                dependencies += LibraryFiles[i] + ";";
-            }
-
-            for (int i = 0; i < strings.Length; i++)
-            {
-                lines.Add(strings[i]);
-            }
-
-            for (int i = 0; i < lines.Count; i++)
-            {
-                string line = lines[i];
-
-                if (line.Contains("<ClCompile>"))
+                .Start(ctx =>
                 {
-                    lines.Insert(i + 1, $"\t\t\t<AdditionalIncludeDirectories>{IncludePath}</AdditionalIncludeDirectories>");
-                }
+                    ProgressTask task = ctx.AddTask("MakeIncludesAndDependancies", true, 60d);
 
-                if (line.Contains("<link>"))
-                {
-                    lines.Insert(i + 1, $"\t\t\t<AdditionalLibraryDirectories>{LibPath}</AdditionalLibraryDirectories>");
-                    lines.Insert(i + 2, $"\t\t\t<AdditionalDependencies>{dependencies}</AdditionalDependencies>");
-                }
-            }
+                    string dependencies = String.Empty;
+                    string[] strings = File.ReadAllLines(projName);
+                    List<string> lines = new List<string>();
+                    task.Increment(10);
 
-            File.WriteAllLines(projName, lines);
+                    for (int i = 0; i < LibraryFiles.Count; i++)
+                    {
+                        dependencies += LibraryFiles[i] + ";";
+                    }
+
+                    task.Increment(10);
+
+                    for (int i = 0; i < strings.Length; i++)
+                    {
+                        lines.Add(strings[i]);
+                    }
+
+                    task.Increment(10);
+
+                    for (int i = 0; i < lines.Count; i++)
+                    {
+                        string line = lines[i];
+
+                        if (line.Contains("<ClCompile>"))
+                        {
+                            lines.Insert(i + 1,
+                                $"\t\t\t<AdditionalIncludeDirectories>{IncludePath}</AdditionalIncludeDirectories>");
+                            task.Increment(10);
+                        }
+
+                        if (line.Contains("<Link>"))
+                        {
+                            lines.Insert(i + 1,
+                            $"\t\t\t<AdditionalLibraryDirectories>{LibPath}</AdditionalLibraryDirectories>");
+                            task.Increment(10);
+
+                            lines.Insert(i + 2,
+                                $"\t\t\t<AdditionalDependencies>{dependencies}</AdditionalDependencies>");
+                            task.Increment(10);
+                        }
+                    }
+
+                    File.WriteAllLines(projName, lines);
+                    task.Increment(10);
+                }); 
         }
     }
 }
