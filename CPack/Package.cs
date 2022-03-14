@@ -70,7 +70,7 @@ namespace CPack
         public void Pack()
         {
             var archive = ZipArchive.Create();
-            archive.AddAllFromDirectory(Directory.GetCurrentDirectory());
+            archive.AddAllFromDirectory(Name);
             archive.SaveTo(Name + ".cpack", CompressionType.Deflate);
         }
 
@@ -79,7 +79,20 @@ namespace CPack
             AnsiConsole.MarkupLine($"[bold]{Name}[/]");
             Console.WriteLine(Description);
             Console.WriteLine(Version);
-            Console.WriteLine(Version);
+        }
+
+        public void Localize()
+        {
+            string[] dlls = Directory.GetFiles(BinPath);
+
+            DllFiles.Clear();
+            IncludePath = new FileInfo(IncludePath).FullName;
+            LibPath = new FileInfo(LibPath).FullName;
+
+            for (int i = 0; i < dlls.Length; i++)
+            {
+                DllFiles.Add(new FileInfo(dlls[i]).FullName);
+            }
         }
 
         public void Install(string projName)

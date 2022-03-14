@@ -40,6 +40,16 @@ namespace CPack
         }
 
         [ArgActionMethod]
+        public void SetupAndInstall(string package, string projName)
+        {
+            Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText($"{package}\\CPack.json"));
+            Package!.Localize();
+            File.WriteAllText($"{package}\\CPack.json", JsonConvert.SerializeObject(Package));
+
+            Package.Install(projName);
+        }
+
+        [ArgActionMethod]
         public void Localize()
         {
             if (!File.Exists("CPack.json"))
@@ -48,19 +58,10 @@ namespace CPack
                 return;
             }
 
-            Package package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"))!;
-            string[] dlls = Directory.GetFiles(package.BinPath);
+            Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"));
+            Package!.Localize();
 
-            package.DllFiles.Clear();
-            package.IncludePath = new FileInfo(package.IncludePath).FullName;
-            package.LibPath = new FileInfo(package.LibPath).FullName;
-
-            for (int i = 0; i < dlls.Length; i++)
-            {
-                package.DllFiles.Add(new FileInfo(dlls[i]).FullName);
-            }
-
-            File.WriteAllText("CPack.json", JsonConvert.SerializeObject(package, Newtonsoft.Json.Formatting.Indented));
+            File.WriteAllText("CPack.json", JsonConvert.SerializeObject(Package, Newtonsoft.Json.Formatting.Indented));
         }
 
         [ArgActionMethod]
@@ -73,12 +74,7 @@ namespace CPack
             }
 
             Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"));
-
-            AnsiConsole.MarkupLine($"[bold]{Package!.Name}[/]");
-            AnsiConsole.MarkupLine(Package.Description);
-
-            string choice = AnsiConsole.Prompt<string>(new SelectionPrompt<string>()
-                .AddChoices("Install", "Localize"));
+            Package!.Info();
         }
 
         [ArgActionMethod]
