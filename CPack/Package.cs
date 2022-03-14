@@ -88,6 +88,7 @@ namespace CPack
             DllFiles.Clear();
             IncludePath = new FileInfo(IncludePath).FullName;
             LibPath = new FileInfo(LibPath).FullName;
+            BinPath = new FileInfo(BinPath).FullName;
 
             for (int i = 0; i < dlls.Length; i++)
             {

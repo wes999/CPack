@@ -7,11 +7,11 @@ using Spectre.Console;
 namespace CPack
 {
     [ArgExceptionBehavior(ArgExceptionPolicy.StandardExceptionHandling)]
-    class CPack
+    public class CPack
     {
         public Package Package = new Package();
 
-        [ArgActionMethod]
+        [ArgActionMethod, ArgDescription("Initializes A Package In The Current Directory")]
         public void Init()
         {
             Console.WriteLine("Package Name:");
@@ -32,7 +32,7 @@ namespace CPack
             File.WriteAllText("CPack.json", JsonConvert.SerializeObject(Package, Newtonsoft.Json.Formatting.Indented));
         }
 
-        [ArgActionMethod]
+        [ArgActionMethod, ArgDescription("Installs The Packages Dependencies, includes and Dlls to The Specified Project")]
         public void Install(string packageName, string projName)
         {
             Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText(packageName + "\\CPack.json"));
@@ -49,7 +49,7 @@ namespace CPack
             Package.Install(projName);
         }
 
-        [ArgActionMethod]
+        [ArgActionMethod, ArgDescription("Sets The Packages Paths To Their Proper Local Paths")]
         public void Localize()
         {
             if (!File.Exists("CPack.json"))
@@ -64,7 +64,7 @@ namespace CPack
             File.WriteAllText("CPack.json", JsonConvert.SerializeObject(Package, Newtonsoft.Json.Formatting.Indented));
         }
 
-        [ArgActionMethod]
+        [ArgActionMethod, ArgDescription("Gets Info On The Current Package")]
         public void Info()
         {
             if (!File.Exists("CPack.json"))
@@ -77,14 +77,14 @@ namespace CPack
             Package!.Info();
         }
 
-        [ArgActionMethod]
+        [ArgActionMethod, ArgDescription("Extracts The Files From The Packed CPack File")]
         public void Unpack(string packageName)
         {
             var archive = ZipArchive.Open(packageName);
             archive.ExtractAllEntries();
         }
 
-        [ArgActionMethod]
+        [ArgActionMethod, ArgDescription("Packs The Current Package With The Zip Archiving System")]
         public void Pack()
         {
             Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"))!;

@@ -15,7 +15,12 @@
       "ProjectGuid": "9412ecfe-cac8-4d52-a126-6961c5a7fe1e",
       "DisplayName": "Tests",
       "ColorIndex": 1
+    },
+    "4ad396e3-2ebb-45e5-8b20-4cc96fc60f68": {
+      "ProjectGuid": "4ad396e3-2ebb-45e5-8b20-4cc96fc60f68",
+      "DisplayName": "BenchMarking",
+      "ColorIndex": 2
     }
   },
-  "NextColorIndex": 2
+  "NextColorIndex": 3
 }

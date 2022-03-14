@@ -33,5 +33,29 @@ namespace Tests
 
             package.Pack();
         }
+
+        [TestMethod]
+        public void TestDeserialization()
+        {
+            Package package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("SFML\\CPack.json"))!;
+
+            Assert.IsTrue(package.IncludePath == "C:\\Users\\Wesma\\source\\repos\\CPack\\Tests\\bin\\Debug\\net6.0\\SFML\\include");
+        }
+
+        [TestMethod]
+        public void TestDeserialization2()
+        {
+            Package package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("SFML\\CPack.json"))!;
+
+            Assert.IsTrue(package.LibPath == "C:\\Users\\Wesma\\source\\repos\\CPack\\Tests\\bin\\Debug\\net6.0\\SFML\\lib");
+        }
+
+        [TestMethod]
+        public void TestDeserialization3()
+        {
+            Package package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("SFML\\CPack.json"))!;
+
+            Assert.IsTrue(package.BinPath == "C:\\Users\\Wesma\\source\\repos\\CPack\\Tests\\bin\\Debug\\net6.0\\SFML\\bin");
+        }
     }
 }
