@@ -3,12 +3,14 @@ using CPack;
 using Microsoft.VisualBasic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using SharpCompress.Archives.Zip;
 
 namespace Tests
 {
     [TestClass]
     public class UnitTest1
     {
+
         [TestMethod]
         public void TestSerialization()
         {
@@ -35,27 +37,37 @@ namespace Tests
         }
 
         [TestMethod]
+        public void TestUnPack()
+        {
+            var archive = ZipArchive.Open("folder.cpack");
+            archive.ExtractAllEntries();
+        }
+
+        [TestMethod]
         public void TestDeserialization()
         {
-            Package package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("SFML\\CPack.json"))!;
+            Package package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("C:\\sfml-2.5.1\\CPack.json"))!;
 
-            Assert.IsTrue(package.IncludePath == "C:\\Users\\Wesma\\source\\repos\\CPack\\Tests\\bin\\Debug\\net6.0\\SFML\\include");
+            Assert.IsTrue(package.IncludePath ==
+                          "C:\\sfml-2.5.1\\include");
         }
 
         [TestMethod]
         public void TestDeserialization2()
         {
-            Package package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("SFML\\CPack.json"))!;
+            Package package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("C:\\sfml-2.5.1\\Cpack.json"))!;
 
-            Assert.IsTrue(package.LibPath == "C:\\Users\\Wesma\\source\\repos\\CPack\\Tests\\bin\\Debug\\net6.0\\SFML\\lib");
+            Assert.IsTrue(package.LibPath ==
+                          "C:\\sfml-2.5.1\\lib");
         }
 
         [TestMethod]
         public void TestDeserialization3()
         {
-            Package package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("SFML\\CPack.json"))!;
+            Package package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("C:\\sfml-2.5.1\\Cpack.json"))!;
 
-            Assert.IsTrue(package.BinPath == "C:\\Users\\Wesma\\source\\repos\\CPack\\Tests\\bin\\Debug\\net6.0\\SFML\\bin");
+            Assert.IsTrue(package.BinPath ==
+                          "C:\\sfml-2.5.1\\bin");
         }
     }
 }
