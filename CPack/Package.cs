@@ -98,17 +98,17 @@ namespace CPack
                     )
                 
                 .Start(ctx =>
-            {
-                ProgressTask task = ctx.AddTask("Copying DllFiles");
-
-                for (int i = 0; i < DllFiles.Count; i++)
                 {
-                    FileInfo info = new FileInfo(DllFiles[i]);
+                    ProgressTask task = ctx.AddTask("Copying DllFiles", true, DllFiles.Count);
 
-                    File.Copy(info.FullName, destination + "\\" + info.Name);
-                    task.Increment(DllFiles.Count / 100);
-                }
-            });
+                    for (int i = 0; i < DllFiles.Count; i++)
+                    {
+                        FileInfo info = new FileInfo(DllFiles[i]);
+
+                        File.Copy(info.FullName, destination + "\\" + info.Name);
+                        task.Increment(1);
+                    }
+                });
         }
 
         public void MakeIncludesAndDependancies(string projName)

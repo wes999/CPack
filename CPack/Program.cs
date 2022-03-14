@@ -33,15 +33,9 @@ namespace CPack
         }
 
         [ArgActionMethod]
-        public void Install(string projName)
+        public void Install(string packageName, string projName)
         {
-            if (!File.Exists("CPack.json"))
-            {
-                AnsiConsole.MarkupLine("[red]ERROR[/] Directory Is Not A Package");
-                return;
-            }
-
-            Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"));
+            Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText(packageName + "\\CPack.json"));
             Package!.Install(projName);
         }
 
