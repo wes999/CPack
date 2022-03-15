@@ -51,6 +51,7 @@ namespace CPack
             Package.Install(projName);
         }
 
+        [ArgActionMethod, ArgDescription("Downloads The Package From The Url, Localizes It And Installs It To The Specified Project")]
         public async Task SetupAndInstallFromUrl(string url, string destination, string projName)
         {
             HttpClient client = new HttpClient();
