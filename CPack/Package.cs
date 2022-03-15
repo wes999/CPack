@@ -70,7 +70,7 @@ namespace CPack
         public void Pack()
         {
             var archive = ZipArchive.Create();
-            archive.AddAllFromDirectory(Name);
+            archive.AddAllFromDirectory(Directory.GetCurrentDirectory());
             archive.SaveTo(Name + ".cpack", CompressionType.Deflate);
         }
 

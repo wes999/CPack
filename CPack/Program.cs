@@ -1,4 +1,6 @@
-﻿using System.Xml;
+﻿using System.Diagnostics;
+using System.Net;
+using System.Xml;
 using Newtonsoft.Json;
 using PowerArgs;
 using SharpCompress.Archives.Zip;
@@ -35,7 +37,7 @@ namespace CPack
         [ArgActionMethod, ArgDescription("Installs The Packages Dependencies, includes and Dlls to The Specified Project")]
         public void Install(string packageName, string projName)
         {
-            Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText(packageName + "\\CPack.json"));
+            Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText( $"{packageName}\\CPack.json"));
             Package!.Install(projName);
         }
 
@@ -46,6 +48,19 @@ namespace CPack
             Package!.Localize();
             File.WriteAllText($"{package}\\CPack.json", JsonConvert.SerializeObject(Package));
 
+            Package.Install(projName);
+        }
+
+        public async Task SetupAndInstallFromUrl(string url, string destination, string projName)
+        {
+            HttpClient client = new HttpClient();
+            byte[] bytes = await client.GetByteArrayAsync(url);
+
+            ZipArchive archive = ZipArchive.Open(new MemoryStream(bytes));
+            archive.ExtractAllEntries();
+
+            Package = JsonConvert.DeserializeObject<Package>(await File.ReadAllTextAsync($"{destination}\\CPack.json"));
+            Package!.Localize();
             Package.Install(projName);
         }
 
