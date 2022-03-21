@@ -15,6 +15,9 @@ namespace CPack
         public string LibPath { get; set; }
         public string BinPath { get; set; }
 
+        public DateTime LastUpDateTime { get; set; }
+        public DateTime CreationTime { get; set; }
+
         public List<string> DocFiles { get; set; }
         public List<string> ExampleFiles { get; set; }
         public List<string> LibraryFiles { get; set; }
@@ -65,6 +68,14 @@ namespace CPack
                     DllFiles.Add(dll.Name);
                 }
             }
+        }
+
+        public void Update()
+        {
+            GetDllFiles(BinPath);
+            GetLibFiles(LibPath);
+
+            LastUpDateTime = DateTime.Now;
         }
 
         public void Pack()

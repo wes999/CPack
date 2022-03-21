@@ -1,4 +1,5 @@
 using System.IO;
+using System.Net.Http;
 using CPack;
 using Microsoft.VisualBasic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -67,6 +68,14 @@ namespace Tests
 
             Assert.IsTrue(package.BinPath ==
                           "C:\\sfml-2.5.1\\bin");
+        }
+
+        [TestMethod]
+        public void TestDownload()
+        {
+            HttpClient httpClient = new HttpClient();
+
+            httpClient.GetByteArrayAsync("");
         }
     }
 }
