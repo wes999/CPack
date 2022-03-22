@@ -48,11 +48,11 @@ namespace CPack
         }
 
         [ArgActionMethod, ArgDescription("Updates The Current Package")]
-        public void Update()
+        public void Update(string message)
         {
             Package = JsonConvert.DeserializeObject<Package>(File.ReadAllText("CPack.json"));
             
-            Package!.Update();
+            Package!.Update(message);
             File.WriteAllText("CPack.json", JsonConvert.SerializeObject(Package, Formatting.Indented));
         }
 

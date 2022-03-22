@@ -18,6 +18,7 @@ namespace CPack
         public DateTime LastUpDateTime { get; set; }
         public DateTime CreationTime { get; set; }
 
+        public List<Commit> Commits { get; set; }
         public List<string> DocFiles { get; set; }
         public List<string> ExampleFiles { get; set; }
         public List<string> LibraryFiles { get; set; }
@@ -25,6 +26,7 @@ namespace CPack
 
         public Package()
         {
+            Commits = new List<Commit>();
             LibraryFiles = new List<string>();
             DllFiles = new List<string>();
             DocFiles = new List<string>();
@@ -70,11 +72,12 @@ namespace CPack
             }
         }
 
-        public void Update()
+        public void Update(string message)
         {
             GetDllFiles(BinPath);
             GetLibFiles(LibPath);
 
+            Commits.Add(new Commit(message, DateTime.Now));
             LastUpDateTime = DateTime.Now;
         }
 
@@ -87,9 +90,19 @@ namespace CPack
 
         public void Info()
         {
+            Tree tree = new Tree("Commits");
+
+            for (int i = 0; i < Commits.Count; i++)
+            {
+                Commit commit = Commits[i];
+
+                tree.AddNode($"{commit.Message} at {commit.Time}");
+            }
+
             AnsiConsole.MarkupLine($"[bold]{Name}[/]");
-            Console.WriteLine(Description);
-            Console.WriteLine(Version);
+            AnsiConsole.MarkupLine(Description);
+            AnsiConsole.MarkupLine($"Creation Time: {CreationTime}");
+            AnsiConsole.Write(tree);
         }
 
         public void Localize()
