@@ -21,4 +21,10 @@
     <PackageReference Include="Spectre.Console" Version="0.43.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="CPackApi">
+      <HintPath>..\..\CPackApi\CPackApi\bin\Debug\net6.0\CPackApi.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
