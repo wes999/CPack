@@ -11,7 +11,8 @@
           "Newtonsoft.Json": "13.0.1",
           "PowerArgs": "3.6.0",
           "SharpCompress": "0.30.1",
-          "Spectre.Console": "0.43.0"
+          "Spectre.Console": "0.43.0",
+          "CPackApi": "1.0.0.0"
         },
         "runtime": {
           "CPack.dll": {}
@@ -46,6 +47,46 @@
           "lib/net6.0/Spectre.Console.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.43.0.0"
+          }
+        }
+      },
+      "CPackApi/1.0.0.0": {
+        "runtime": {
+          "CPackApi.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Microsoft.EntityFrameworkCore/6.0.3.0": {
+        "runtime": {
+          "Microsoft.EntityFrameworkCore.dll": {
+            "assemblyVersion": "6.0.3.0",
+            "fileVersion": "6.0.322.12306"
+          }
+        }
+      },
+      "Microsoft.EntityFrameworkCore.InMemory/6.0.3.0": {
+        "runtime": {
+          "Microsoft.EntityFrameworkCore.InMemory.dll": {
+            "assemblyVersion": "6.0.3.0",
+            "fileVersion": "6.0.322.12306"
+          }
+        }
+      },
+      "Microsoft.EntityFrameworkCore.Abstractions/6.0.3.0": {
+        "runtime": {
+          "Microsoft.EntityFrameworkCore.Abstractions.dll": {
+            "assemblyVersion": "6.0.3.0",
+            "fileVersion": "6.0.322.12306"
+          }
+        }
+      },
+      "Microsoft.Extensions.Caching.Memory/6.0.0.0": {
+        "runtime": {
+          "Microsoft.Extensions.Caching.Memory.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.222.6406"
           }
         }
       }
@@ -84,6 +125,31 @@
       "sha512": "sha512-TyfzVxx3jHr1FeeI9Z6Jn6QTnP7KduV14dn9GTYc0v/t2h4L6WJ0Kc2DOnOJUlGBQ/qXK4P+HITIR/JTHcKYLg==",
       "path": "spectre.console/0.43.0",
       "hashPath": "spectre.console.0.43.0.nupkg.sha512"
+    },
+    "CPackApi/1.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.EntityFrameworkCore/6.0.3.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.EntityFrameworkCore.InMemory/6.0.3.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.EntityFrameworkCore.Abstractions/6.0.3.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.Extensions.Caching.Memory/6.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

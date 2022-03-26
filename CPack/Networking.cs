@@ -1,21 +1,38 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using Newtonsoft.Json;
+using Spectre.Console;
 
 namespace CPack
 {
     public static class Networking
     {
-        public static async Task GetPackages()
+        private static readonly Func<PackageForm, string> packageFormConverter = result => result.Name;  
+
+        public static void GetPackages()
         {
-            HttpClient client = new HttpClient();
+            WebClient client = new WebClient();
+            
+            string data = client.DownloadString("https://localhost:7100/packages");
+            PackageForm[] packages = JsonConvert.DeserializeObject<List<PackageForm>>(data).ToArray();
 
-            string data = await client.GetStringAsync("localhost:7100/packages");
+            SelectionPrompt<PackageForm> prompt = new SelectionPrompt<PackageForm>();
+            prompt.Converter = packageFormConverter;
+            prompt.AddChoices(packages);
 
-            List<PackageForm> packages = JsonConvert.DeserializeObject<List<PackageForm>>(data);
+            PackageForm selectedPackage = AnsiConsole.Prompt(prompt);
+            PackageInfo(selectedPackage);
+        }
+
+        public static void PackageInfo(PackageForm package)
+        {
+            Console.WriteLine(package.Name);
+            Console.WriteLine(package.Description);
+            Console.WriteLine(package.CreationTime);
         }
     }
 
-    class PackageForm
+    public class PackageForm
     {
         public int Id { get; set; }
         public string Name { get; set; }

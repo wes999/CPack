@@ -7,3 +7,9 @@ C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\Newtonsoft.Json
 C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\PowerArgs.dll
 C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\SharpCompress.dll
 C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\Spectre.Console.dll
+C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\CPackApi.dll
+C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\Microsoft.EntityFrameworkCore.dll
+C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\Microsoft.EntityFrameworkCore.InMemory.dll
+C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\Wesma\source\repos\CPack\CPack\bin\Debug\net6.0\publish\CPackApi.pdb

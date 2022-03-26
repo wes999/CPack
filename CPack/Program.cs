@@ -157,6 +157,12 @@ namespace CPack
 
             Package.Pack();
         }
+
+        [ArgActionMethod, ArgDescription("View All Uploaded Packages")]
+        public void Packages()
+        {
+             Networking.GetPackages();
+        }
         
         public static class Program
         {
