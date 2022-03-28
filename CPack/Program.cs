@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Net;
-using System.Xml;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using PowerArgs;
 using SharpCompress.Archives.Zip;
 using Spectre.Console;
@@ -78,29 +75,6 @@ namespace CPack
             Package.Install(args.ProjName);
         }
 
-        [ArgActionMethod]
-        public void Test()
-        {
-            AnsiConsole.Progress().Columns(
-                    new ProgressColumn[]
-                    {
-                        new SpinnerColumn(),
-                        new ElapsedTimeColumn(),
-                        new ProgressBarColumn(),
-                        new PercentageColumn()
-                    })
-                .Start(ctx =>
-                {
-                    ProgressTask task = ctx.AddTask("a");
-
-                    while (!task.IsFinished)
-                    {
-                        Thread.Sleep(100);
-                        task.Increment(1);
-                    }
-                });
-        }
-
         [ArgActionMethod, ArgDescription("Downloads The Package From The Url, Localizes It And Installs It To The Specified Project")]
         public async Task SetupAndInstallFromUrl(string url, string destination, string projName)
         {
@@ -158,12 +132,6 @@ namespace CPack
             Package.Pack();
         }
 
-        [ArgActionMethod, ArgDescription("View All Uploaded Packages")]
-        public void Packages()
-        {
-             Networking.GetPackages();
-        }
-        
         public static class Program
         {
             public static void Main(string[] args)

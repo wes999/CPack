@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using SharpCompress.Archives;
+﻿using SharpCompress.Archives;
 using SharpCompress.Archives.Zip;
 using SharpCompress.Common;
 using Spectre.Console;
