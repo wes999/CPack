@@ -8,4 +8,5 @@ Answer the basic questions about the library. This would create a CPack.json fil
 
 ## Installing A CPack Package
 Navgigate to the library folder and enter 'cpack localize' this will localize all of the paths to your machine. \
-Then to actually install the library enter cpack install
+Then to actually install the library enter 'cpack install' followed by the library and the name of the vcxproj file. EX: \
+cpack install C:\Library C:\Projects\Project.vcxproj
